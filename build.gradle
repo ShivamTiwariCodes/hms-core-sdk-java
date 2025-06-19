@@ -11,27 +11,28 @@ java {
     withJavadocJar()
     withSourcesJar()
 }
+tasks.register('copyJarToMultipleDirs') {
+    dependsOn jar // Ensure jar is built first
 
-tasks.register('copyJarToOpt') {
-    dependsOn build
     doLast {
+        def jarFile = tasks.named('jar').get().archiveFile.get().asFile
         def destinations = [
-                "../hms-sdk-impl-java/libs/",
                 "../spring-temporal-worker/libs/",
-                "libs/"
+                "../hms-sdk-impl-java/libs/"
         ]
 
         destinations.each { path ->
             def destDir = file(path)
             destDir.mkdirs()
             copy {
-                from jar.archiveFile
+                from jarFile
                 into destDir
             }
-            println "JAR copied to: ${destDir.absolutePath}"
+            println "Copied to: ${new File(destDir, jarFile.name).absolutePath}"
         }
     }
 }
+
 
 repositories {
     mavenCentral()
@@ -44,11 +45,11 @@ dependencies {
 jar {
     manifest {
         attributes(
-            'Implementation-Title': 'Custom Handler Hosp1',
+            'Implementation-Title': 'HMS core SDK',
             'Implementation-Version': version
         )
     }
     archiveBaseName.set("hms-core-sdk")
     archiveVersion.set("") // no version in name
-    destinationDirectory.set(file("../hms-sdk-impl-java/lib/"))
+    destinationDirectory.set(file("build/libs/"))
 }

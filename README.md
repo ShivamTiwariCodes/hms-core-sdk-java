@@ -39,5 +39,5 @@ This copies the compiled JAR to a predefined `lib/` directory for downstream usa
 # Build the JAR
 ./gradlew build
 
-# Copy to external folder (optional)
-./gradlew copyJarToOpt
+# Copy to external folder 
+./gradlew copyJarToMultipleDirs
