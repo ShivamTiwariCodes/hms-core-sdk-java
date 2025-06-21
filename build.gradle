@@ -18,7 +18,9 @@ tasks.register('copyJarToMultipleDirs') {
         def jarFile = tasks.named('jar').get().archiveFile.get().asFile
         def destinations = [
                 "../spring-temporal-worker/libs/",
-                "../hms-sdk-impl-java/libs/"
+                "../hms-sdk-impl-java/libs/",
+                "../hms-core-java/libs/",
+                "../custom-handler-hosp1/libs/"
         ]
 
         destinations.each { path ->
@@ -40,6 +42,8 @@ repositories {
 
 dependencies {
     // No dependencies for this simple handler, add if needed
+
+    implementation 'io.temporal:temporal-sdk:1.23.0'
 } 
 
 jar {
